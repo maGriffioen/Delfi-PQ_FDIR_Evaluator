@@ -10,24 +10,28 @@ String incomingStr = "";
 //LED settings and parameters.
 int ledPin = 78;
 int ledBlink = 0;
+int counter = 0;
 
 void setup() {
   //Set Red LED1 pin.
   pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
 
   //Initiate Serial connection and wait untill it is established.
   Serial.begin(9600);
   while (!Serial) {
     ;
   }
-  //Serial.println("Hello World");
+  Serial.println("Hello World");
   //delay(1000);
   
 }
 
 void loop() {
         t.update();
-        
+        counter ++;
+        Serial.print("Current loop-count: ");
+        Serial.println(counter);
         // send data only when you receive data:
         if (Serial.available() > 0) {
                 // read the incoming byte and character
