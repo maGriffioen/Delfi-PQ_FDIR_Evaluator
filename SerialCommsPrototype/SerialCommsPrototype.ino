@@ -8,30 +8,21 @@ char incomingChar;
 String incomingStr = "";
 
 //LED settings and parameters.
-int ledPin = 78;
-int ledBlink = 0;
-int counter = 0;
+int ledPin = 78; 
+int ledBlink = 0;    
+int counter = 0;        
+int countOut = 0;
 
-void setup() {
-  //Set Red LED1 pin.
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, HIGH);
 
-  //Initiate Serial connection and wait untill it is established.
-  Serial.begin(9600);
-  while (!Serial) {
-    ;
-  }
-  Serial.println("Hello World");
-  //delay(1000);
-  
-}
 
 void loop() {
+        delay(50);
         t.update();
         counter ++;
-        Serial.print("Current loop-count: ");
-        Serial.println(counter);
+        if( countOut == 1 ){
+            Serial.print("LoopCount: ");
+            Serial.println(counter);
+        }
         // send data only when you receive data:
         if (Serial.available() > 0) {
                 // read the incoming byte and character
@@ -40,7 +31,7 @@ void loop() {
 
                 //If ; (0x3B) is sent, terminate the message, execute incoming command and print it.
                 if (incomingByte == 0x3B){
-                  Serial.println(incomingStr);
+                  Serial.println(incomingStr); 
                   execCommand(incomingStr);
 
                   //Reset incoming string.
@@ -58,21 +49,8 @@ void loop() {
         
 }
 
-void execCommand(String input)
-{
-  //List of possible command.
-  
-  if (input == "LED ON"){
-    t.stop(ledBlink);
-    digitalWrite(ledPin, HIGH);
-  }
-  else if  (input == "LED OFF"){
-    t.stop(ledBlink);
-    digitalWrite(ledPin, LOW);
-  }
-  else if (input.substring(0, 9) == "LED BLINK"){
-    t.stop(ledBlink);
-    ledBlink = t.oscillate(ledPin, input.substring(10, 14).toInt(), LOW);
-  }
-}
+
+
+
+
 
