@@ -12,7 +12,7 @@ These operations allow the user to execute simple LED operations
 3. B -> let LED blink with a frequency of "value"
 4. p -> Prints value to serial
 
-## Bifflipping Operations
+## Bitflipping Operations
 These operations allow the user to execute bitflips at the desired memory location
 
 1. m -> Move pointer to the desired port
