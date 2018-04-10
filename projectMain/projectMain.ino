@@ -32,7 +32,7 @@ void setup()
 }
 
 void loop() {
-//        delay(50);
+        //delay(50);
         counter ++;
         if( countOut == 1 ){
             Serial.print("LoopCount: ");
