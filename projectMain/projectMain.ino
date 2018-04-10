@@ -1,7 +1,3 @@
-#include "Timer.h"
-
-Timer t;
-
 //Serial communication variables.
 int incomingByte = 0;
 char incomingChar;
@@ -37,7 +33,6 @@ void setup()
 
 void loop() {
         delay(50);
-        t.update();
         counter ++;
         if( countOut == 1 ){
             Serial.print("LoopCount: ");

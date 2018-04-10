@@ -22,13 +22,6 @@ void execCommand( String input )
   }
 
 
-  //Blink LED (input ->3 half period)
-  else if ( command == "b" ){
-    t.stop(ledBlink);
-    ledBlink = t.oscillate(ledPin, value, LOW);
-  }
-
-
   //Ping (return number from 'value')
   else*/ if( command == "p" ){
     //Ping
