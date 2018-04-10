@@ -23,7 +23,7 @@ void execCommand( String input )
 
 
   //Blink LED (input ->3 half period)
-  else if ( command == "B" ){
+  else if ( command == "b" ){
     t.stop(ledBlink);
     ledBlink = t.oscillate(ledPin, value, LOW);
   }
@@ -83,7 +83,7 @@ void execCommand( String input )
   //Count loop number through serial ouput
   //On for argument 1
   //Off for argument 0
-  else if ( command == "C" ){
+  else if ( command == "c" ){
     if( value == 1 ){
       countOut = 1;
     }

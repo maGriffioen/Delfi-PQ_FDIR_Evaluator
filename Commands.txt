@@ -9,7 +9,7 @@ These operations allow the user to execute simple LED operations
 
 1. L -> Turn LED on
 2. l -> Turn LED off
-3. B -> let LED blink with a frequency of "value"
+3. b -> let LED blink with a frequency of "value"
 4. p -> Prints value to serial
 
 ## Bitflipping Operations
@@ -20,5 +20,5 @@ These operations allow the user to execute bitflips at the desired memory locati
 3. s -> Set a value at the current flippointer location.
 4. t -> Prints a (test)string
 5. o -> Shows the current variable at the selected location
-6. C -> Count the number of loops that have been run
+6. c -> Count the number of loops that have been run
 7. R -> Reset the controller - not operational, yet
