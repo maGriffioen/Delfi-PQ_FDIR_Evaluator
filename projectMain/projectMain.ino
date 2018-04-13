@@ -20,7 +20,7 @@ void setup()
   digitalWrite(ledPin, HIGH);
 
   //Initiate Serial connection and wait untill it is established.
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {
     ;
   }
@@ -32,7 +32,7 @@ void setup()
 }
 
 void loop() {
-        delay(50);
+        //delay(50);
         counter ++;
         if( countOut == 1 ){
             Serial.print("LoopCount: ");

@@ -34,23 +34,28 @@ void execCommand( String input )
   }
 
   //TODO: current bug - only bits 0-31 work, the 32nd bit cannot be flipped
-  //Move flipPointer to desired port (input in DEC) 
+  //Move flipPointer to desired port (input in HEX with the 0x prefix) 
   //value -> target memory location
   else if( command == "m" ){
-    //move pointer
-    if( (int)flipPointer < value ){ //Move forward
-      for( *flipPointer; (int)flipPointer < value; flipPointer++ ){
-        ;
-      }
-    }
-    else if( (int)flipPointer > value ){ // Move backwards
-      for( *flipPointer; (int)flipPointer > value; flipPointer-- ){
-        ;
-      }
-    }
-    else {  // Do nothing if no pointer is already at the correct position
-      ;
-    }
+    // Assign hex address to pointer
+    flipPointer = (unsigned int*)value; // Check if this works! Otherwise, use "reinterpret_cast<int*>"
+    // Print address that the pointer contains to verify
+    unsigned int address = (unsigned int)flipPointer;
+    Serial.println(address);
+    
+//    if( (int)flipPointer < value ){ //Move forward
+//      for( *flipPointer; (int)flipPointer < value; flipPointer++ ){
+//        ;
+//      }
+//    }
+//    else if( (int)flipPointer > value ){ // Move backwards
+//      for( *flipPointer; (int)flipPointer > value; flipPointer-- ){
+//        ;
+//      }
+//    }
+//    else {  // Do nothing if no pointer is already at the correct position
+//      ;
+//    }
   }
 
   //Flip a bit at the current flipPointer location.
@@ -74,7 +79,8 @@ void execCommand( String input )
     Serial.print( "Val: " );
     Serial.print( *flipPointer );
     Serial.print( " at: " );
-    Serial.println( (int)flipPointer );
+    Serial.print( (int)flipPointer);
+    Serial.println();
   }
 
   //Count loop number through serial ouput
