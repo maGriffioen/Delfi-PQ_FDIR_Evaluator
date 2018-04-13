@@ -76,7 +76,8 @@ void execCommand( String input )
     Serial.print( "Val: " );
     Serial.print( *flipPointer );
     Serial.print( " at: " );
-    Serial.println( (int)flipPointer );
+    Serial.print( (int)flipPointer, HEX );
+    Serial.println();
   }
 
   //Count loop number through serial ouput
