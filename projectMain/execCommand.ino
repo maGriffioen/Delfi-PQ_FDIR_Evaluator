@@ -37,8 +37,7 @@ void execCommand( String input )
     flipPointer = (unsigned int*)value; // Check if this works! Otherwise, use "reinterpret_cast<int*>"
     // Print address that the pointer contains to verify
     unsigned int address = (unsigned int)flipPointer;
-    Serial.print(address, HEX);
-    Serial.println("");
+    Serial.println(address);
     
 //    if( (int)flipPointer < value ){ //Move forward
 //      for( *flipPointer; (int)flipPointer < value; flipPointer++ ){
@@ -76,7 +75,7 @@ void execCommand( String input )
     Serial.print( "Val: " );
     Serial.print( *flipPointer );
     Serial.print( " at: " );
-    Serial.print( (int)flipPointer, HEX );
+    Serial.print( (int)flipPointer);
     Serial.println();
   }
 
