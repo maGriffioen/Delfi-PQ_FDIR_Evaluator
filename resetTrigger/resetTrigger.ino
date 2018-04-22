@@ -30,8 +30,8 @@ void loop() {
 
                 //If ; (0x3B) is sent, terminate the message, execute incoming command and print it.
                 if (incomingByte == 0x3B){
-                  Serial.println(incomingStr); 
                   execCommand(incomingStr);
+                  Serial.println(incomingStr); 
 
                   //Reset incoming string.
                   incomingStr = "";
