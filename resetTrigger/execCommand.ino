@@ -3,9 +3,6 @@
 //Uses furst character in String as command
 //All further additions are seen as 'values' (optional additional arguments)
 
-//This library is necessary to reset the controller
-#include "reset.h"
-
 void execCommand( String input )
 {
   //List of possible command.
@@ -23,6 +20,8 @@ void execCommand( String input )
     digitalWrite(ledPin, LOW);
   }
 
+  //Reset the controller at resetTriggerPin
+  //Gives LOW signal for 50ms, HIGH again after.
   else if( command == "r" ){
     //Reset controller at resetTriggerPin (connected via 1k Ohm resistor.
     digitalWrite(resetTriggerPin, LOW);
@@ -35,12 +34,5 @@ void execCommand( String input )
     //Ping
     //Print 'value' to serial
     Serial.println( value );
-  }
-
-  else if ( command == "R" ){
-    delay(5);
-    //Reset controller?? -Is this even possible from the software? -
-    ResetCtl_initiateHardResetWithSource( RESET_SRC_0);
-    Serial.println( "ERROR" );
   }
 }

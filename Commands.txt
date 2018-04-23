@@ -4,13 +4,7 @@ The commands are structured as follows:
 Identifier Command -> Explanation + additional inputs/parameters
 Note: the commands are case sensitive
 
-## LED Operations
-These operations allow the user to execute simple LED operations
-
-1. L -> Turn LED on
-2. l -> Turn LED off
-3. b -> let LED blink with a frequency of "value"
-
+----------------FLIGHT CONTROLLER----------------
 
 ## Bitflipping Operations
 These operations allow the user to execute bitflips at the desired memory location
@@ -27,4 +21,20 @@ These operations allow the user to verify the performance of the controller
 1. p -> Returns a given value back to serial (ping)
 2. c -> Count the number of loops that have been run
 3. t -> Prints a (test)string
-4. R -> Reset the controller - not operational, yet
+
+
+
+----------------RESET TRIGGER CONTROLLER----------------
+
+## LED operations
+1. L -> Turn LED on
+2. l -> Turn LED off
+
+
+## Flight controller reset
+1. r -> Resets flight controller
+
+
+## Controller Verification Operations
+These operations allow the user to verify the performance of the controller 
+1. p -> Returns a given value back to serial (ping)

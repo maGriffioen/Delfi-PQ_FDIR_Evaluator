@@ -5,10 +5,10 @@
 
 void flipBit( unsigned int flipLocation )
 {
-  //Ensure the pointer is not pointing to itself, do not execute bitflip if it is [else].
   //  (int)pointer     --Pointer content
   //  (int)&pointer    --Pointer address
-  
+
+  //Ensure the pointer is not pointing to itself, do not execute bitflip if it is [else].
   if( *flipPointer != (int)flipPointer)
   {
       unsigned int flipmask = pow(2, flipLocation);

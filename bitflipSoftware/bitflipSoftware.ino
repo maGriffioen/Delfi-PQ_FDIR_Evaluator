@@ -3,32 +3,31 @@ int incomingByte = 0;
 char incomingChar;
 String incomingStr = "";
 
-//LED settings and parameters.
-//int ledPin = 78;    
+//Loop-counter settings
 int counter = 0;        
 int countOut = 1;
 
+//Bitflip dummy variable (unused) and pointer to it.
 unsigned int pointerInitializationVariable = 0;
 unsigned int *flipPointer = &pointerInitializationVariable;
+//String for data verification / detecting corruption
 String testString = "Hello World";
 
 void setup() 
 {
-  //Set Red LED1 pin to ouput mode, and enable.
-//  pinMode(ledPin, OUTPUT);
-//  digitalWrite(ledPin, HIGH);
-
   //Initiate Serial connection and wait untill it is established.
+  //Ensure that only the FDIR-verification software uses the serial port
   Serial.begin(115200);
   while (!Serial) {
     ;
   }
 
-  //Verify that the boot is complete.
+  //Verify that the system booted is complete.
   Serial.println("Boot sequence done");
-  //Serial.println( (int)&testString );
 }
 
+//Main loop function of the flightcontroller.
+//The content present in the examplesoftware need to be included to the flight software
 void loop() {
         delay(100);
         counter ++;

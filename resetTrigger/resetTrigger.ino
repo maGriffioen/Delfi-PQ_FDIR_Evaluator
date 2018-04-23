@@ -13,7 +13,8 @@ void setup() {
   //Set resetTriggerPin to output mode and set it high -> prevents reset. 
   pinMode(resetTriggerPin, OUTPUT);
   digitalWrite(resetTriggerPin, HIGH);
-  
+
+  //Initiate Serial connection and wait untill it is established.
   Serial.begin(115200);
   while (!Serial) {
     ;
