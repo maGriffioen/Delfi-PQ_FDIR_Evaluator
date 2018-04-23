@@ -4,7 +4,7 @@ char incomingChar;
 String incomingStr = "";
 
 //Pin parameters
-int resetTriggerPin = 19; //HIGH -> No reset, LOW -> Reset triggered when set back to HIGH
+int resetTriggerPin = 40; //HIGH -> No reset, LOW -> Reset triggered when set back to HIGH
 int ledPin = 78;
 
 
