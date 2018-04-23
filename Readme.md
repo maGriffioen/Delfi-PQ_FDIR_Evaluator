@@ -8,7 +8,7 @@ This project proposes the design and implementation of an alternative solution t
 ## General Concept
 The purpose of the software files in this repository is to assess the performance of the FDIR. The software runs on a SimpleLink™ MSP432P401R LaunchPad™ Development Kit next to the flight software. The software will invoke bitflips in the memory, as commanded by the host running the python code. By flipping various bits, and assessing the performance of the controller, before and after, the influence of bitflips on the controller performance is assessed.
 
-![Errors](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/errorHistory.png)
+
 
 ## Literature Study
 
@@ -31,7 +31,7 @@ In order to use the scripts found in this repository, the user needs to have the
 
 (**Energia:** This program is used to compile the code for the controller. If the user wishes to make some improvements to it, he needs this to get it running on the controller.) 
 
-**Wires and 1kΩ resistor:** Used to connect an output pin from one controller to the reset pin of the other controller.
+**Wires and 1 kΩ resistor:** Used to connect an output pin from one controller to the reset pin of the other controller.
 
 #### Software Setup
 
