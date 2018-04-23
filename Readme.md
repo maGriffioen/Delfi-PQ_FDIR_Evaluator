@@ -21,7 +21,6 @@ The targeted location of the SEUs is the SRAM.The entire address space the MSP43
 http://energia.nu/wordpress/wp-content/uploads/2015/03/2016-06-09-LaunchPads-MSP432-2.0-%E2%80%94-Pins-Maps.jpg
 For pin allocation.
 
-
 ## Required Soft- and Hardware
 In order to use the scripts found in this repository, the user needs to have the following programs installed in his computer: 
 
@@ -116,6 +115,10 @@ This script consists of two major parts: The definition of a timeout exception, 
 **verifyData:** General function for verification of the data on the microcontroller. This function calls various (currently only verifyTestString) functions which very different data.
 
 **verifyTestString:** Verifies the content of the test string on the controller.
+
+## Block Diagrams
+
+![Wiring](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Wiring.pdf)
 
 ## Issues Encountered
 
