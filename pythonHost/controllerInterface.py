@@ -41,6 +41,11 @@ class controllerInterface:
         log = [line[:-2] for line in log]
         if not ( 'r' in log ):
             print "Reset failed, resetTrigger not responsive!"
+            resetSuccess = False
+        else:
+            resetSuccess = True
+
+        time.sleep(0.2)
 
         return None
 
@@ -81,7 +86,8 @@ class controllerInterface:
             if ( self.controller.inWaiting() > 0 ):
                 log += self.readController()
                 if ( command in log ):
-                    log.remove( command )
+                    if (command != 't'):
+                        log.remove( command )
                     keepReading = False
                     success = True
                 elif (timeout < 5 ):
@@ -142,6 +148,33 @@ class controllerInterface:
 
         return commandSuccess
 
+    def verifyData(self):
+        testStringSuccess = self.verifyTestString()
+
+        if (testStringSuccess):
+            verificationPass = True
+        else:
+            verificationPass = False
+
+        return verificationPass
+
+    def verifyTestString(self):
+        self.clearLog()
+        command = 't'
+        commandSuccess = self.sendCommand( command )
+
+        if 't' in self.serialLog:
+            if self.serialLog[ self.serialLog.index('t') -1 ] == 'Hello World':
+                dataVerificationPass = True
+            else:
+                dataVerificationPass = False
+        else:
+            dataVerificationPass = False
+
+        self.clearLog()
+        return dataVerificationPass
+
+
 
     def cleanLog(self):
         loopcountString = 'LoopCount: '
@@ -160,5 +193,7 @@ class controllerInterface:
         return None
 
 
+    def clearLog(self):
+        self.serialLog = []
 
-
+        return None
