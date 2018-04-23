@@ -15,8 +15,8 @@ String testString = "Hello World";
 void setup() 
 {
   //Set Red LED1 pin to ouput mode, and enable.
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, HIGH);
+//  pinMode(ledPin, OUTPUT);
+//  digitalWrite(ledPin, HIGH);
 
   //Initiate Serial connection and wait untill it is established.
   Serial.begin(115200);
