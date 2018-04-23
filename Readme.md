@@ -118,7 +118,7 @@ This script consists of two major parts: The definition of a timeout exception, 
 
 ## Block Diagrams
 
-![Wiring](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Wiring.pdf)
+![Wiring](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Wiring.png)
 
 ## Issues Encountered
 
