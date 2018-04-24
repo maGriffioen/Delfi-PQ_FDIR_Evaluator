@@ -46,13 +46,7 @@ Now, the controller can be connected according to the following wiring scheme. O
 
 The next step is to plug in both controllers, and figure out the port for either of them. Recommended is to use the serial monitor in Energia: the flight controller can be distinguished in the serial monitor by the 'Loopcount: xx' messages showing up when the correct port is selected. The easiest way to detect the secondary controller is by attempting to send commands such as 'L;': This should return the command back to the user after execution ('L' in this case). When both ports are found it is recommended to send 'r;' to the secondary controller, and check if this results in 'Boots sequence done' on the primary controller, in order to see if everything is connected properly and working. Opening multiple isntances of Energia allows opening more than one serial monitor. Make sure all serial monitors are closed before moving on to the next step.
 
-![FlightController](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/flightcontroller.png)
-
-![Reset](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/resetTrigger.png)
-
 Now, the pythonHost.py python code should be opened in a text editor. The variables controllerPort and resetPort need to be edited to the port names from the previous step. Furthermore, the search pattern can be edited to suit the users need. In the end, fulllist should be an integer list with all memory locations to be verified, and flipLocations should be a list of integers of bits on which to perform bitflips.
-
-![pythonHost](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/python.png)
 
 Finally, the python code can be run using any python 2.7 interpreter.
 
@@ -91,6 +85,8 @@ This file, with its function execCommand, defines all the commands that can be e
 **flipBit.ino**
 This file contains the function flipBit, which performs the actual bitflip at the bit given by the input parameter (0-31). The location of flipPointer determines the memory address where this bitflip is performed.
 
+![FlightController](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/flightcontroller.png)
+
 
 ##### Reset trigger controller
 The required scripts that run on the reset trigger controller (secondary controler) are found in the folder resetTrigger. It contains two .ino files, which are similar to the ones for the flight controller.
@@ -112,6 +108,8 @@ This file, with its function execCommand, is similar to the file with the same n
 **p:** Returns the given input value to the serial port. Can be used as a ‘ping’ to verify the working of the controller.
 
 **r:** Trigger a reset on the primary controller
+
+![Reset](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/resetTrigger.png)
 
 ##### Python host software
 The python code running on the host computer can be found in the pythonHost folder. To files are present within this folder: [pythonHost.py](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/pythonHost/pythonHost.py) and [controllerInterface.py](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/pythonHost/controllerInterface.py).
@@ -139,6 +137,9 @@ This script consists of two major parts: The definition of a timeout exception, 
 **verifyData:** General function for verification of the data on the microcontroller. This function calls various (currently only verifyTestString) functions which very different data.
 
 **verifyTestString:** Verifies the content of the test string on the controller.
+
+![pythonHost](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/python.png)
+
 
 ## Results
 
