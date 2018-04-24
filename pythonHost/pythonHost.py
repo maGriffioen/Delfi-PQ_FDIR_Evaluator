@@ -32,7 +32,7 @@ markerbegin = 536870912
 searchspace = 1048576
 searchspace = 64000
 
-looprange = 20      #Number of location to search per group
+looprange = 20      #Number of locations to search per group
 locnumber = 5       #Number of random groups to search
 
 #Generate groups of random locations to search
@@ -40,16 +40,18 @@ numpy.random.seed(5)
 floatarray = numpy.around(markerbegin + searchspace * numpy.random.rand(1, locnumber))
 randloc = floatarray.astype(int).tolist()[0]
 randloc.append( markerbegin )   #Include start of memory to search -> known failure locations
-randloc.append( 536875136 )     #Include know data location to find data corruption
+randloc.append( 536875136 )     #Include known data location to find data corruption
 randloc.sort()
 
-#Generate a list of all location to search
+#Generate a list of all locations to search
 fulllist = []
 for i in randloc:
     for j in range(0, looprange * 4, 4):
         addition = i + j
         fulllist.append(addition)
 
+#Set up the location in the bit string (from 0 until 31) where the bitflip will be performed
+#This can contain multiple locations
 flipLocations = [3]
 
 
