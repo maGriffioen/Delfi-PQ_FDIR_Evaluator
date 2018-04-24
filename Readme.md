@@ -22,7 +22,7 @@ The targeted location of the SEUs is the SRAM.The entire address space the MSP43
 At the end it was decided that another controller would be used to automatically reset the test controller when a bitflip has caused a fatal error. To do this it was necessary to look into the different functions of the pins. A detailed overview can be found [here](http://energia.nu/wordpress/wp-content/uploads/2015/03/2016-06-09-LaunchPads-MSP432-2.0-%E2%80%94-Pins-Maps.jpg).
 
 ## Required Soft- and Hardware
-In order to use the scripts found in this repository, the user needs to have the following programs installed in his computer: 
+In order to use the scripts found in this repository, the user needs to have the following programs installed on his computer: 
 
 **Python 2.7:** This open source software provides a hands-on interface that the user will easily familiarise with. It is this program that will initialise the controller and send the desired commands. The following modules are used: Pyserial, signal (Unix only), numpy and time.
 
@@ -40,7 +40,7 @@ The first step is to open the bitflipSoftware.ino project in Energia. This code 
 
 Next, the resetTrigger.ino project needs to be opened in Energia. When using any controller different from the SimpleLink™ MSP432P401R LaunchPad™ Development Kit, the various pin settings need to be changed. This software can now be compiled and uploaded to the secondary controller (reset trigger controller). This controller can now be disconnected as well.
 
-Now, the controller can be connected according to the following wiring scheme. Optionally, one could connect an LED (and extra resistor) to the output pin of the reset trigger controller in order to have a visual indication of the resets begin triggered during the program.
+Now, the controller can be connected according to the following wiring scheme. Optionally, one could connect a LED (and extra resistor) to the output pin of the reset trigger controller in order to have a visual indication of the resets being triggered during the program.
 
 ![Wiring](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Wiring.png)
 
@@ -58,9 +58,11 @@ The required scripts that run on the controller are found in the folder bitflipS
 
 **bitflipSoftware.ino**
 This is the main file which is used to use the software. This file contains three main parts:
-Initialization of global variables
-Setup function for the controller (opening serial ports): setup
-Main loop function: loop
+
+* Initialization of global variables
+* Setup function for the controller (opening serial ports): setup
+* Main loop function: loop
+
 In general one execution of the loop function can be described as follows:
 First, a call to delay() is made to limit the speed of the controller. Then the controller (when needed) output the current value of the loop counter to the serial port. Finally, the serial port is checked for incoming messages. If these are present the execCommand function is executed in order to perform the correct command.
 
