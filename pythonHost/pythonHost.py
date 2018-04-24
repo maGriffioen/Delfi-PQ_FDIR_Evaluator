@@ -96,7 +96,7 @@ for markerloc in fulllist:
 
         resultList.append( (markerloc, flipLocation, faultType) )
         print m1, o1, f1, o2, dataVerified
-
+ 
 print "FDIR-Verification done. Runtime: " + str(time.time() - starttime) + " s"
 
 ########################################################
@@ -126,4 +126,24 @@ legend = ['None', 'Lockup', 'Data corruption', 'Move failure', 'Move fault']
 legend = [legend[i] + " " + str( failureCount[i]) for i in range(numberOfFailureTypes)]
 pyplot.pie(failureCount, labels = legend)
 pyplot.title("Failure distributions")
+pyplot.show()
+
+
+#Create history plot
+loclist = []
+errorlist = []
+for i in resultList[:]:
+    loc = i[0]
+    loclist.append(loc)
+    error = i[2]
+    errorlist.append(error)
+
+y_values = ['No error', 'Lockup', 'Data corruption', 'Move failure', 'Move fault']
+y_axis = numpy.arange(0, 5, 1)
+pyplot.scatter(loclist, errorlist)
+pyplot.yticks(y_axis, y_values)
+pyplot.yticks(rotation=45)
+pyplot.xlabel('Location in Memory')
+pyplot.ylabel('Error mode')
+pyplot.grid()
 pyplot.show()
