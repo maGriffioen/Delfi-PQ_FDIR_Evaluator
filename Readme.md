@@ -10,7 +10,7 @@ The purpose of the software files in this repository is to assess the performanc
 
 
 
-## Literature Study
+## Background Information
 
 ##### SEUs 
 SEUs are so-called single event upsets. They are a type of soft error and are caused by ionising particles hitting the hardware components of a computer. The impact causes the state of the part to change. When this part contains data, it will show a deviating output. Because there is a lot of radiation in the outer space environment, SEUs are common for computers onboard spacecraft.
@@ -29,11 +29,31 @@ In order to use the scripts found in this repository, the user needs to have the
 **2x SimpleLink MSP432P401R LaunchPad Development Kit:** All software runs on these controllers.
 
 
-(**Energia:** This program is used to compile the code for the controller. If the user wishes to make some improvements to it, he needs this to get it running on the controller.) 
+(**Energia:** This program is used to compile the code for the controller, and upload it to the controller. If the user wishes to make some improvements to it, he needs this to get it running on the controller.) 
 
 **Wires and 1 kΩ resistor:** Used to connect an output pin from one controller to the reset pin of the other controller.
 
-#### Software Setup
+
+## How to use the FDIR evaluator
+Various steps are involved in implementing the evaluator in an existing project and/ or getting the software to work by itself.
+
+The first step is to open the bitflipSoftware.ino project in Energia. This code can either be used in its existing state, or the various elements (variable initialization and code within setup and loop) can be implemented in existing flight software. The code can be compiled and uploaded to the primary controller (flight controller). It is recommended to disconnect the controller after uploading.
+
+Next, the resetTrigger.ino project needs to be opened in Energia. When using any controller different from the SimpleLink™ MSP432P401R LaunchPad™ Development Kit, the various pin settings need to be changed. This software can now be compiled and uploaded to the secondary controller (reset trigger controller). This controller can now be disconnected as well.
+
+Now, the controller can be connected according to the following wiring scheme. Optionally, one could connect an LED (and extra resistor) to the output pin of the reset trigger controller in order to have a visual indication of the resets begin triggered during the program.
+
+![Wiring](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Wiring.png)
+
+The next step is to plug in both controllers, and figure out the port for either of them. Recommended is to use the serial monitor in Energia: the flight controller can be distinguished in the serial monitor by the 'Loopcount: xx' messages showing up when the correct port is selected. The easiest way to detect the secondary controller is by attempting to send commands such as 'L;': This should return the command back to the user after execution ('L' in this case). When both ports are found it is recommended to send 'r;' to the secondary controller, and check if this results in 'Boots sequence done' on the primary controller, in order to see if everything is connected properly and working. Opening multiple isntances of Energia allows opening more than one serial monitor. Make sure all serial monitors are closed before moving on to the next step.
+
+Now, the pythonHost.py python code should be opened in a text editor. The variables controllerPort and resetPort need to be edited to the port names from the previous step. Furthermore, the search pattern can be edited to suit the users need. In the end, fulllist should be an integer list with all memory locations to be verified, and flipLocations should be a list of integers of bits on which to perform bitflips.
+
+Finally, the python code can be run using any python 2.7 interpreter.
+
+
+
+## Software Explanation
 
 ##### Flight controller
 The required scripts that run on the controller are found in the folder bitflipSoftware. It contains three .ino files, which will be explained below.
@@ -120,9 +140,9 @@ This script consists of two major parts: The definition of a timeout exception, 
 
 ![Wiring](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Wiring.png)
 
-## Issues Encountered
+## Issues Encountered & Solutions Implemented
 
-**External reset:** during the process of looping through the memory on the microcontroller while flipping bits, the controller regularly freezes if it encounters an invalid instruction or data structure. Although the controller can be reset through the serial interface, it cannot be reset if it throws an exception because it then halts execution of the program. The only way to reset an interrupted microprocessor is by either pressing the physical hardware button or triggering the reset pin on the chip. 
+**External reset:** During the process of looping through the memory on the microcontroller while flipping bits, the controller regularly freezes if it encounters an invalid instruction or data structure. Although the controller can be reset through the serial interface, it cannot be reset if it throws an exception because it then halts execution of the program. The only way to reset an interrupted microprocessor is by either pressing the physical hardware button or triggering the reset pin on the chip. 
 
 The first option is not favourable during the loop as manual intervention is required every time the controller hangs. The issue is then to automatically detect a hanging processor and externally triggering the reset pin. Two options were considered:
 
@@ -130,11 +150,23 @@ The first option is not favourable during the loop as manual intervention is req
 
 2. Using another microcontroller which directly drives the reset pin of the microcontroller. This option was chosen as it is the least complicated because the second controller can also be driven by the same Python script. 
 
+**Making the python host robust:** Some major difficulties were encountered during the writing of the python host software, since the software needs to be able to handle with crashes of the microcontroller and other irregularities. Therefore, the software needed to be made robust and able to handle any kinds of problems it could run into.
+The following design design choices helped in achieving this goal:
+
+1. Reading data from the flight controller is always done within a ‘try-except’ structure, with a running signal timer, which raises an exception on timeout, allowing an ‘escape’ from reading from a crashed controller. This has as drawback that the python software can only run on Unix systems.
+
+2. All python functions with the controller in-the-loop are written in such a way that an unexpected result still is a valid result, and that, when the expected case it not encountered the program still continues. These functions also have boolean outputs, which use True for a ‘correct’ execution (nominal case) and False when issues are encountered. This way, it can be traced back to where the error occurred, and a failure mode can be attached to it.
+
+3. The python side of the python-to-controller interface has been written in a class, in order to allow it to store data within. This is also the easiest way to ‘hide’ large chunks of code partially out of view when working on search patterns and/ or the main python code.
+
+**Processing all serial data from the controller:** When having both the the various commands with outputs, and the loop counter enabled, quite some information is received on the python end. In order to keep the program as simple as possible, the loop counter data has not been used for verification of the controller. Rather, the controller returning the received command after presumably executing it is used to verify whether the command worked or did not work.
+
+
 ## Recommendations
 
 * Implement interrupt handlers: if the microprocessor halts due to a runtime exception, it halts the execution of the program and will set a designated register flag with the appropriate fault code. It then tries to call a function, called an interrupt handler, which can try to ‘repair’ the fault and give the processor the command to resume execution. In our case, this function has the potential to read the exception code and forward it to the Python host so that the exact cause of the halt can be displayed, which gives extra insight into what happens at which memory location.
 
-* Fix Linux-only compatibility: Currently, the python function signal.timer() in the signal library is used. This function is only available on Unix/ Linux systems. The purpose of this function is to prevent the software from getting stuck in a serial.readline() call after the controller has crashed (it still shows that it has characters available to read). This can be fixed by setting up the secondary controller (currently used to trigger resets) to act as a watchdog and check the status of the primary controller (perhaps using an output pin on the primary controller which alternates High and Low). This can be then used to prevent a serial.readline() call on a crashed controller.
+* Resolve Unix/ Linux-only compatibility: Currently, the python function signal.timer() in the signal library is used. This function is only available on Unix/ Linux systems. The purpose of this function is to prevent the software from getting stuck in a serial.readline() call after the controller has crashed (it still shows that it has characters available to read). This can be fixed by setting up the secondary controller (currently used to trigger resets) to act as a watchdog and check the status of the primary controller (perhaps using an output pin on the primary controller which alternates High and Low). This can be then used to prevent a serial.readline() call on a crashed controller.
 
 * Tweak program timing: Currently, both the python code and flight controller main loop are set to sleep by respectively time.sleep() and delay() in order to prevent them from outperforming each other. As an effect, verifying the controller by running bitflips over the entire memory will take long (estimated ~18 hours for the SRAM). By reducing those delays, the speed of the program can be vastly increased.
 
