@@ -140,6 +140,11 @@ This script consists of two major parts: The definition of a timeout exception, 
 
 **verifyTestString:** Verifies the content of the test string on the controller.
 
+## Results
+
+The results of the FDIR evaluation software can be seen below. It shows the error mode that occurred at a certain location within the specified memory range (*x*-axis). From here it can be seen that in most cases no errors are present. 
+![Results](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Results.png)
+
 ## Issues Encountered
 
 **External reset:** During the process of looping through the memory on the microcontroller while flipping bits, the controller regularly freezes if it encounters an invalid instruction or data structure. Although the controller can be reset through the serial interface, it cannot be reset if it throws an exception because it then halts execution of the program. The only way to reset an interrupted microprocessor is by either pressing the physical hardware button or triggering the reset pin on the chip. 
