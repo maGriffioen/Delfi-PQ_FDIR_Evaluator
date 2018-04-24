@@ -64,7 +64,7 @@ This is the main file which is used to use the software. This file contains thre
 * Main loop function: loop
 
 In general one execution of the loop function can be described as follows:
-First, a call to delay() is made to limit the speed of the controller. Then the controller (when needed) output the current value of the loop counter to the serial port. Finally, the serial port is checked for incoming messages. If these are present the execCommand function is executed in order to perform the correct command.
+First, a call to delay() is made to limit the speed of the controller. Then the controller (when needed) outputs the current value of the loop counter to the serial port. Finally, the serial port is checked for incoming messages. If these are present the execCommand function is executed in order to perform the correct command.
 
 **execCommand.ino**
 This file, with its function execCommand, defines all the commands that can be executed by the controller. They are all in the same format, i.e. a letter followed by a number and a semicolon. The commands are defined as follows:
@@ -94,10 +94,11 @@ This file contains the function flipBit, which performs the actual bitflip at th
 The required scripts that run on the reset trigger controller (secondary controler) are found in the folder resetTrigger. It contains two .ino files, which are similar to the ones for the flight controller.
 
 **resetTrigger.ino**
-This is the main file which is used to use the software. It contains the same general structure as the main project file for the flight controller software.
-Variable initialization
-Setup function setup, for opening serial communications and various pins
-Main loop function loop, which contains required code for receiving commands and passing these to execCommand.
+This is the main file which is used to use the software. It contains the same general structure as the main project file for the flight controller software:
+
+* Variable initialization
+* Setup function setup, for opening serial communications and various pins
+* Main loop function loop, which contains required code for receiving commands and passing these to execCommand.
 
 
 **execCommand.ino**
@@ -164,9 +165,9 @@ The first option is not favourable during the loop as manual intervention is req
 
 2. All python functions with the controller in-the-loop are written in such a way that an unexpected result still is a valid result, and that, when the expected case it not encountered the program still continues. These functions also have boolean outputs, which use True for a ‘correct’ execution (nominal case) and False when issues are encountered. This way, it can be traced back to where the error occurred, and a failure mode can be attached to it.
 
-3. The python side of the python-to-controller interface has been written in a class, in order to allow it to store data within. This is also the easiest way to ‘hide’ large chunks of code partially out of view when working on search patterns and/ or the main python code.
+3. The python side of the python-to-controller interface has been written in a class, in order to allow it to store data within. This is also the easiest way to ‘hide’ large chunks of code partially out of view when working on search patterns and/or the main python code.
 
-**Processing all serial data from the controller:** When having both the the various commands with outputs, and the loop counter enabled, quite some information is received on the python end. In order to keep the program as simple as possible, the loop counter data has not been used for verification of the controller. Rather, the controller returning the received command after presumably executing it is used to verify whether the command worked or did not work.
+**Processing all serial data from the controller:** When having both the various commands with outputs, and the loop counter enabled, quite some information is received on the python end. In order to keep the program as simple as possible, the loop counter data has not been used for verification of the controller. Rather, the controller returning the received command after presumably executing it is used to verify whether the command worked or did not work.
 ## Recommendations
 
 * **Implement interrupt handlers:** if the microprocessor halts due to a runtime exception, it halts the execution of the program and will set a designated register flag with the appropriate fault code. It then tries to call a function, called an interrupt handler, which can try to ‘repair’ the fault and give the processor the command to resume execution. In our case, this function has the potential to read the exception code and forward it to the Python host so that the exact cause of the halt can be displayed, which gives extra insight into what happens at which memory location.
