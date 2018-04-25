@@ -146,8 +146,42 @@ This script consists of two major parts: The definition of a timeout exception, 
 
 ## Results
 
-The results of the FDIR evaluation software can be seen below. It shows the error mode that occurred at a certain location within the specified memory range (*x*-axis). From here it can be seen that in most cases no errors are present. 
+The FDIR evaluation software will, after each bitlfip, evaluate the controller and assign an error type to that specific bitflip:
+
+0. None / No error -> No errors were detected
+
+1. Lockup -> After the bitflip, the controller froze and stopped responding. This error mode requires a reset to get the controller alive again.
+
+2. Data corruption -> Data stored on the controller has been corrupted (The 'Hello World' test string changed).
+
+3. Move failure -> After moving the pointer to a specific memory address, the controller stopped responding.
+
+4. Move fault -> The pointer location before and/or after the bitflip is not the predefined location on which to perform the bitflip.
+
+These results are returned to the user in various ways. After a run is done, two graphs will be created. The first graph shows the error mode that occurred at a certain location within the specified memory range (*x*-axis). From this one can see the correlation between error type and memory address. 
+
 ![Results](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/Results.png)
+
+Furthermore, a pie chart of the various erros is created. This gives an indication of the distribution of failure modes.
+
+![pieChart](https://github.com/FlyOHolic/Delfi-PQ_FDIR_Evaluator/blob/master/images/pieChart.png)
+
+The raw results are stored as well inside a text file called 'FDIR-Results.dat'. Each line in this file represents a bitflip. The results are represented in the formay **[address], [bit number], [error type]**. An example can be seen below:
+
+'''
+536870952, 3, 0
+536870956, 3, 0
+536870960, 3, 0
+536870964, 3, 0
+536870968, 3, 1
+536870972, 3, 2
+536870976, 3, 0
+536870980, 3, 0
+536870984, 3, 0
+'''
+
+Finally, during the run, the python script will print various statements in its terminal. It alternates between printing the location (address minus the addres of the start of RAM) and bit of the bitflip, and a line with some results. These results are shown in the following format: [bool, (bool, int, int), bool, (bool, int, int), bool]. The first boolean indicated if the movment of the pointer has been done correctly. The second element, the first tuple, shows in [0] if the output command was performed successfully, [1] is the value at the pointer before the bitflip, and [2] is the location  of the pointer before the bitflip. The next element (3rd) is a boolean indicating if the bitflip was performed succesfully (without crashing the controller). The structure following is a tuple again containing the same data as the previous tuple, yet this time for the situation after the bit flip. Finally, the last boolean shows if data corruption did occur (True -> no data corruption, False -> data corruption, or the command was not executed successfully).
+
 
 ## Issues Encountered
 
