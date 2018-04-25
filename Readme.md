@@ -168,7 +168,7 @@ Furthermore, a pie chart of the various erros is created. This gives an indicati
 
 The raw results are stored as well inside a text file called 'FDIR-Results.dat'. Each line in this file represents a bitflip. The results are represented in the formay **[address], [bit number], [error type]**. An example can be seen below:
 
-'''
+```
 536870952, 3, 0
 536870956, 3, 0
 536870960, 3, 0
@@ -178,7 +178,7 @@ The raw results are stored as well inside a text file called 'FDIR-Results.dat'.
 536870976, 3, 0
 536870980, 3, 0
 536870984, 3, 0
-'''
+```
 
 Finally, during the run, the python script will print various statements in its terminal. It alternates between printing the location (address minus the addres of the start of RAM) and bit of the bitflip, and a line with some results. These results are shown in the following format: [bool, (bool, int, int), bool, (bool, int, int), bool]. The first boolean indicated if the movment of the pointer has been done correctly. The second element, the first tuple, shows in [0] if the output command was performed successfully, [1] is the value at the pointer before the bitflip, and [2] is the location  of the pointer before the bitflip. The next element (3rd) is a boolean indicating if the bitflip was performed succesfully (without crashing the controller). The structure following is a tuple again containing the same data as the previous tuple, yet this time for the situation after the bit flip. Finally, the last boolean shows if data corruption did occur (True -> no data corruption, False -> data corruption, or the command was not executed successfully).
 
